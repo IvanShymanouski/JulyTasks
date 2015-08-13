@@ -1,0 +1,17 @@
+﻿<nav>
+            <div style="display: block;" id="register-content">                
+                @using (Html.BeginForm("Register", "Account"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <fieldset id="inputs">              
+                        <input id="username" name="Email" placeholder="Email" required="" type="email">   
+                        <input id="password" name="Password" placeholder="Password" required="" type="password">          
+                        <input id="confirmPassword" name="ConfirmPassword" placeholder="Confirm password" required="" type="password">                                                
+                    </fieldset>
+                    <fieldset id="actions">
+                        <input id="submit" value="Register" type="submit">
+                    </fieldset>
+                }
+            </div>   
+</nav>

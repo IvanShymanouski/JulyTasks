@@ -1,0 +1,56 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Web;
+using System.Security.Principal;
+using System.Web.Security;
+
+namespace Four_tasks.Authentification
+{
+    public class CustomAuthenticationService : ICustomAuthenticationService
+    {
+        private readonly HttpContextBase _httpContext;
+
+        public CustomAuthenticationService(HttpContextBase httpContext)
+        {
+            _httpContext = httpContext;
+        }
+
+        #region ICustomAuthenticationService Members
+        public void SignIn(IIdentity identity, bool createPersistentCookie)
+        {
+            var user = identity as Identity;
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            var cookie = new Cookie
+            {
+                Id = user.Id,
+                Email = user.Email,
+                RememberMe = createPersistentCookie
+            };
+
+            string userData = JsonConvert.SerializeObject(cookie);
+            var ticket = new FormsAuthenticationTicket(1, cookie.Email, DateTime.Now,
+                                                       DateTime.Now.Add(FormsAuthentication.Timeout),
+                                                       createPersistentCookie, userData);
+            string encTicket = FormsAuthentication.Encrypt(ticket);
+            var httpCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket) { Expires = DateTime.Now.Add(FormsAuthentication.Timeout) };
+
+            _httpContext.Response.Cookies.Add(httpCookie);
+        }
+
+        public void SignOut()
+        {
+            // Not worth covering, has been tested by Microsoft
+            FormsAuthentication.SignOut();
+        }
+        #endregion
+    }
+
+
+    public interface ICustomAuthenticationService                     
+    {
+        void SignIn(IIdentity user, bool createPersistentCookie);        
+        void SignOut();
+    }
+}

@@ -1,0 +1,17 @@
+﻿<nav> 
+   <div style="display: block; float : left" id="login-content">
+   @using (Html.BeginForm("Login", "Account"))
+   {
+     @Html.AntiForgeryToken()
+     @Html.ValidationSummary(true)
+     <fieldset id="inputs">
+       <input id="username" name="Email" placeholder="Ваш Email" required="" type="email">   
+       <input id="password" name="Password" placeholder="Пароль" required="" type="password">
+     </fieldset> 
+     <fieldset id="actions">
+       <input id="submit" value="Войти" type="submit">
+       <label>@{bool RememberMe = false;}@Html.CheckBoxFor(m => RememberMe) Запомнить</label>                        
+     </fieldset>
+   }
+   </div> 
+</nav>

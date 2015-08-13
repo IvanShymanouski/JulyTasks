@@ -1,0 +1,30 @@
+<configuration>
+
+	<configSections>
+		<section name="superScript" type="SuperScript.Configuration.SuperScriptConfig, SuperScript.Common" />
+	</configSections>
+	
+	<system.web>
+		<!--<httpModules>
+			<add name="HttpInitialiser" type="SuperScript.HttpInitialiser, SuperScript.Common" />
+		</httpModules>-->
+	</system.web>
+
+	<!--<system.webServer>
+		<modules runAllManagedModulesForAllRequests="true">
+			<add name="HttpInitialiser" type="SuperScript.HttpInitialiser, SuperScript.Common" />
+		</modules>
+	</system.webServer>-->
+	
+	<superScript>
+		<emitters>
+			<!-- Instances of IEmitter may be declared here.
+				 See http://supertext.github.io/SuperScript/emitters/create-emitter.html for more information. -->
+		</emitters>
+		<emitterBundles>
+			<!-- Instances of EmitterBundle may be declared here.
+				 See http://supertext.github.io/SuperScript/emitters/emitter-bundles.html for more information. -->
+		</emitterBundles>
+	</superScript>
+
+</configuration>

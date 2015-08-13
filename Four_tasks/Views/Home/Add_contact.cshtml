@@ -1,0 +1,10 @@
+﻿@using Four_tasks.Models;
+@model Contact
+
+    <div>
+        @using (Html.BeginForm())
+        {
+            @Html.EditorForModel()
+            <input type="submit" value="Add contact" />
+        }
+    </div>

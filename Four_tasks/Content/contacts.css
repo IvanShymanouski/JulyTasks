@@ -1,0 +1,25 @@
+﻿.contactInfo {
+    position : relative;
+    float : left;
+    border : 1px solid;
+    height : 100px;
+    width : 200px;
+    margin : 20px;
+    padding : 10px;
+    text-align : left;
+}
+
+.contactInfo .display-label {
+    color : red;
+    font-weight : bold;
+}
+
+.contactInfo .display-field {
+    font-style : italic;   
+}
+
+.menu {
+    position : relative;
+    width : 100%;
+    text-align : left;
+}

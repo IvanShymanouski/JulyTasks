@@ -1,0 +1,24 @@
+﻿@using Four_tasks.Models;
+@model IdComment
+
+<h2>Contacts</h2>   
+<div class="contacts" style="float : left">  
+  @{var i = (ViewBag.Page - 1) * ViewBag.contactsOnPage;
+    if (i>=0)
+    {
+        for (; i < ViewBag.contacts.Count && i < ViewBag.Page * ViewBag.contactsOnPage; i++)
+        {
+            <div class="contactInfo">
+                @{var contact = ViewBag.contacts[i];}
+                @Html.DisplayFor(x => contact)
+            </div>
+        }   
+    }
+  }
+  </div>
+  <div style="clear:both"></div>
+  <div class="contactsLink" style="float : left">
+     @if (ViewBag.Page > 1) { @Html.ActionLink("Back", "Index", new { Page = ViewBag.Page - 1 }); }
+     <span> Page : @ViewBag.Page of @ViewBag.PageCount </span>
+     @if (ViewBag.Page < ViewBag.PageCount) { @Html.ActionLink("Next", "Index", "Home",new { Page = ViewBag.Page + 1 },null); }
+  </div>  

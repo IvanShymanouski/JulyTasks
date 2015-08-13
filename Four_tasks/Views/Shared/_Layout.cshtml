@@ -1,0 +1,142 @@
+﻿@using Four_tasks.Models;
+
+<!doctype html5>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Epam SYSTEMS</title>    
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+     <script id="commentTemplate" type="text/x-jquery-tmpl">
+        <li> 
+            Id :${Id} - ${Comment}
+        </li>
+    </script>
+    <script type="text/javascript" src ="@Url.Content("~/Scripts/CommentJqueryAjax.js")" ></script>
+    <script type="text/javascript" src ="@Url.Content("~/Scripts/AccountJqueryAjax.js")" ></script>
+    <script type="text/javascript" src ="@Url.Content("~/Scripts/PagerJqueryAjax.js")" ></script>
+</head>
+<body>
+<div class="headwrapper">
+    <div class="header">
+        <div class="headtext">
+            <h1>EPAM SYSTEMS</h1>
+            <h3>UI LAB TRAINING</h3>
+        </div>
+        <div class="imgicon"></div>
+        
+<nav>
+    @if (false == User.Identity.IsAuthenticated)
+    {
+    <ul>
+        <li id="login">
+            <a class="active" id="login-trigger" href="/Account/Login">
+                Войти <span>&#9650;</span>
+            </a>
+            <div style="display: none;" id="login-content">                                                           
+                @using (Html.BeginForm("Login", "Account"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <fieldset id="inputs">
+                        <input id="username" name="Email" placeholder="Ваш Email" required="" type="email">   
+                        <input id="password" name="Password" placeholder="Пароль" required="" type="password">
+                    </fieldset> 
+                    <fieldset id="actions">
+                        <input id="submit" value="Войти" type="submit">
+                        <label>@{bool RememberMe = false;}@Html.CheckBoxFor(m => RememberMe) Запомнить</label>                        
+                    </fieldset>
+                }
+            </div>                                  
+        </li>        
+        <li id="register">
+            <a  class="active" id="register-trigger" href="/Account/Register">
+                Зарегистрироваться <span>&#9650;</span>
+            </a>
+            <div style="display: none;" id="register-content">                
+                @using (Html.BeginForm("Register", "Account"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <fieldset id="inputs">              
+                        <input id="username" name="Email" placeholder="Email" required="" type="email">   
+                        <input id="password" name="Password" placeholder="Password" required="" type="password">          
+                        <input id="confirmPassword" name="ConfirmPassword" placeholder="Confirm password" required="" type="password">                                                
+                    </fieldset>
+                    <fieldset id="actions">
+                        <input id="submit" value="Register" type="submit">
+                    </fieldset>
+                }
+            </div>   
+        </li>
+    </ul>
+    }
+    else
+    {
+        <ul>
+        <li>
+            @Html.Label("User", "Hello, " + User.Identity.Name)
+        </li>
+        <li>
+        @using (Html.BeginForm("LogOff", "Account"))
+         {
+            @Html.ValidationSummary(true)        
+            <input id="submit" value="LogOff" type="submit">                    
+         }
+       </li>
+       </ul>
+    }
+</nav>
+        <ul class="menu">
+            <li><a href="#">About UI lab</a></li>
+            <li><a href="#">Home Tasks</a></li>
+            <li><a href="#">Tests & Exams</a></li>
+            <li>@Html.ActionLink("Add contact", "Add_contact", "Home", null, null)</li>
+            <li>@Html.ActionLink("View contacts", "Index", "Home", null, null)</li>
+        </ul>
+    </div>
+</div>
+
+<div class="side">
+    <ul class="sidemenu">
+        @for (var i = 0; i < 6; i++)
+        {
+            <li><a href="#">Vertical navigation sample</a></li>
+        }
+    </ul>
+</div>
+
+<div class="content">   
+    <div style="float:left">
+    <h2>Level 2 Heading</h2> 
+        @RenderBody()
+    </div>
+    <div style="clear :right"></div>
+    @if (ViewBag.comments != null)
+    {
+    <div style="float:left">        
+    <h3>Level 3 heading</h3>        
+        <ul id="comments">
+            @foreach (var comment in ViewBag.comments)
+            {
+                <li>Id : @comment.Id - @comment.Comment</li>
+            }
+        </ul>
+        @using (Html.BeginForm("JqueryAjax", "Home", FormMethod.Post, new { id = "commentSend" }))
+        {
+            @model IdComment
+            <b>id</b><br>
+            @Html.TextBoxFor(m => m.Id)<br><br>
+            <b>comment</b><br>
+            @Html.TextAreaFor(m => m.Comment, 4, 20, new { })<br><br>
+            <input type="submit" value="comment">
+        }
+        
+    </div>
+    }
+</div>    
+@RenderSection("scripts", required: false)
+</body>
+</html>
